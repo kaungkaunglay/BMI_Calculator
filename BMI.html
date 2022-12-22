@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI</title>
+</head>
+<style>
+    body{
+        background-color: white;
+    }
+    .BMI_Area{
+        margin: auto;
+        margin-top: 50px;
+        width: 400px ;
+        height: 500px;
+        background-color: #e0e0e0;
+        border-radius: 10px;
+        justify-content: center;
+        box-shadow: 5px 5px 10px #c1c1c1,
+        -5px -5px 10px #ffffff;
+        font-family: "Adobe Devanagari, Arial";
+    }
+    .BMI_Area h1{
+        text-align: center;
+        padding-top: 30px;
+        border: none;
+    }
+    .slider_container{
+        margin-top: 30px;
+    }
+    .slider_container input{
+        margin-left: 90px;
+        width: 200px;
+        height: 3px;
+        color: dodgerblue;
+    }
+    .label{
+        margin-top: 30px;
+        margin-left: 90px;
+    }
+    .label label{
+        font-weight: bold;
+    }
+    .label input{
+        width: 35px;
+        height: 15px;
+        margin-left: 10px;
+        background-color: white;
+        border: none;
+    }
+    .label select{
+        margin-left: 10px;
+        width: 50px;
+        text-align: center;
+        margin-left: 20px;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .button{
+        margin-left: 90px;
+        margin-top: 80px;
+    }
+    .button input{
+        width: 220px;
+        height: 35px;
+        border-radius: 4px;
+        border-color: whitesmoke;
+        background-color: dodgerblue;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+    }
+    .description{
+        padding-left: 90px ;
+        padding-top: 30px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+</style>
+
+<body>
+<div class="BMI_Area">
+    <label for=""><h1>BMI Calculator</h1></label>
+    <div class="slider_container">
+        <input id="slider_weight" type="range" min="1" max="200" value="1" step="any">
+    </div>
+    <div class="label">
+        <label>WEIGHT: </label>
+        <input id="weight" type="text"  readonly>
+        <select id="weight_value" name="">
+            <option value="kg">kg</option>
+            <option value="lb">lb</option>
+        </select>
+    </div>
+    <div class="slider_container">
+        <input id="slider_height" type="range" min="1" max="200" value="1">
+    </div>
+    <div class="label">
+        <label>HEIGHT: </label>
+        <input id="height" type="text" readonly>
+        <select name="" id="height_value">
+            <option value="cm">cm</option>
+            <option value="in">in</option>
+        </select>
+    </div>
+    <div class="description">
+        <span id="value"></span>
+    </div>
+    <div class="button">
+        <input type="button" id="calculate" value="Calculate">
+    </div>
+</div>
+<script>
+    var slider_weigth = document.getElementById("slider_weight");
+    slider_weigth.oninput = function(){
+        let output = document.getElementById("weight");
+        output.value = parseFloat(slider_weigth.value).toFixed(1);
+    }
+    var slider_height = document.getElementById("slider_height");
+    slider_height.oninput = function(){
+        let output = document.getElementById("height");
+        output.value = parseFloat(slider_height.value).toFixed(1);
+    }
+    var calc = document.getElementById("calculate");
+    calc.onclick = function (){
+        let weight_format = document.getElementById("weight_value").value;
+        let height_format = document.getElementById("height_value").value;
+
+        // Value
+        let weight = parseFloat(document.getElementById("weight").value);
+        let height = parseFloat(document.getElementById("height").value) ;
+        if(weight_format == "kg" && height_format=="cm"){
+            let converted_height = height / 100 ;
+            let value =  weight /  Math.pow(converted_height,2);
+            if(!isNaN(value)){
+                document.getElementById("value").innerText = "BMI value is : "+ value.toFixed(2);
+            }
+        }
+        else if(weight_format == "lb" && height_format=="in"){
+            let value  = ( weight / (Math.pow(height,2)) ) * 703;
+            if(!isNaN(value)){
+                document.getElementById("value").innerText= "BMI value is : "+ value.toFixed(2) ;
+            }
+        }
+        else if(weight_format == "kg" && height_format == "in"){
+            let converted_to_cm = height * 2.54;
+            let value  = weight / Math.pow(converted_to_cm,2);
+            if(!isNaN(value)){
+                document.getElementById("value").innerText = "BMI value is : "+ value.toFixed(2) ;
+            }
+        }
+        else if(weight_format == "lb" && height_format == "cm"){
+            let converted_to_in  = height * 0.393701;
+            let value = weight / Math.pow(converted_to_in,2);
+            if(!isNaN(value)){
+                document.getElementById("value").innerText = "BMI value is : " + value.toFixed(2) ;
+            }
+        }
+    }
+</script>
+</body>
+</html>
